@@ -54,40 +54,53 @@ class WeekChart extends StatelessWidget {
       elevation: 8,
       child: Container(
         width: 40,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            FittedBox(
-              child: Text('\$${per.toStringAsFixed(2)}'),
-            ),
-            Container(
-              height: 100,
-              width: 14,
-              margin: EdgeInsets.symmetric(vertical: 4),
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(
-                  width: 1,
-                  color: Colors.black,
+        child: LayoutBuilder(
+          builder: (_, limit1) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                //
+                Container(
+                  height: limit1.maxHeight * .10,
+                  child: FittedBox(
+                    child: Text('\$${per.toStringAsFixed(2)}'),
+                  ),
                 ),
-              ),
-              child: FractionallySizedBox(
-                heightFactor: (per / tot) > 0 ? (per / tot) : 0,
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  color: Colors.red,
+                //chart bar
+                Container(
+                  height: limit1.maxHeight * .65,
+                  width: 14,
+                  margin: EdgeInsets.symmetric(vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(
+                      width: 1,
+                      color: Colors.black,
+                    ),
+                  ),
+                  child: FractionallySizedBox(
+                    heightFactor: (per / tot) > 0 ? (per / tot) : 0,
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      color: Colors.red,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Text(
-              wek.toUpperCase(),
-              style: TextStyle(
-                color: Colors.teal.shade700,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
+                //
+                Container(
+                  height: limit1.maxHeight * .10,
+                  child: Text(
+                    wek.toUpperCase(),
+                    style: TextStyle(
+                      color: Colors.teal.shade700,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -95,24 +108,36 @@ class WeekChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: week!.keys.map((e) {
-            return chart(week![e]!.toDouble(), amount, e);
-          }).toList(),
-        ),
-        Text(
-          'Total Cost: \$${amount.toStringAsFixed(2)}',
-          style: TextStyle(
-            color: Colors.red.shade900,
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
+    return LayoutBuilder(builder: (_, size1) {
+      //print(size1);
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            height: size1.maxHeight * .85,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: week!.keys.map((e) {
+                return chart(week![e]!.toDouble(), amount, e);
+              }).toList(),
+            ),
           ),
-        )
-      ],
-    );
+          //
+          Container(
+            height: size1.maxHeight * .15,
+            alignment: Alignment.bottomCenter,
+            child: Text(
+              'Total Cost: \$${amount.toStringAsFixed(2)}',
+              style: TextStyle(
+                color: Colors.red.shade900,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ],
+      );
+    });
   }
 }

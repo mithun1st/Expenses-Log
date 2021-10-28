@@ -30,7 +30,9 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State {
   List<Item> _item = [
+    Item(itemName: 'Earphone', itemPrice: 40.121, purchaseDate: DateTime.now()),
     Item(itemName: 'Shoe', itemPrice: 30.2, purchaseDate: DateTime.now()),
+    Item(itemName: 'Earphone', itemPrice: 40.121, purchaseDate: DateTime.now()),
     Item(itemName: 'Food', itemPrice: 30.2, purchaseDate: DateTime.now()),
     Item(itemName: 'Phone', itemPrice: 60.121, purchaseDate: DateTime.now()),
     Item(itemName: 'Earphone', itemPrice: 40.121, purchaseDate: DateTime.now()),
@@ -51,54 +53,69 @@ class HomePageState extends State {
 
   @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.of(context).size.height - 90;
+    //declare appbar variable
+    final AppBar appBarVar = AppBar(
+      title: Text(
+        'Expenses Log',
+        style: TextStyle(
+          fontFamily: 'font3',
+          fontSize: 24,
+        ),
+      ),
+      leading: Icon(Icons.receipt),
+      actions: [
+        IconButton(
+          onPressed: () {
+            //setState(() {
+            //_item.clear();
+            //});
+
+            //
+            showModalBottomSheet(
+                context: context,
+                builder: (_) {
+                  return Container();
+                });
+            //
+          },
+          icon: Icon(Icons.remove),
+        ),
+      ],
+      backgroundColor: Colors.purple,
+    );
+
+    //screen size
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double statusHeight = MediaQuery.of(context).padding.top;
+    final double appBarHeight = appBarVar.preferredSize.height;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Expenses Log',
-          style: TextStyle(
-            fontFamily: 'font3',
-            fontSize: 24,
-          ),
-        ),
-        leading: Icon(Icons.receipt),
-        actions: [
-          IconButton(
-            onPressed: () {
-              setState(() {
-                _item.clear();
-              });
-            },
-            icon: Icon(Icons.remove),
-          ),
-        ],
-        backgroundColor: Colors.purple,
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Container(
-              width: double.infinity,
-              height: 190,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                border: Border.all(width: 2),
-                borderRadius: BorderRadius.circular(5),
+      appBar: appBarVar,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: (screenHeight - (statusHeight + appBarHeight)) * .3,
+              padding: const EdgeInsets.all(5.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  border: Border.all(width: 2),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: WeekChart(_item),
               ),
-              child: WeekChart(_item),
             ),
-          ),
-          Container(
-            height: screenHeight - 190,
-            width: double.infinity,
-            //color: Colors.grey.shade200,
-            child: _item.isEmpty
-                ? EmptyList()
-                : OutputItem(_item.reversed.toList(), _itemDel),
-          ),
-        ],
+            //
+            Container(
+              height: (screenHeight - (statusHeight + appBarHeight)) * .70,
+              width: double.infinity,
+              child: _item.isEmpty
+                  ? EmptyList()
+                  : OutputItem(_item.reversed.toList(), _itemDel),
+            ),
+          ],
+        ),
       ),
       //--------------------------------Floating Action button
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -108,9 +125,7 @@ class HomePageState extends State {
           showModalBottomSheet(
               context: context,
               builder: (_) {
-                return GestureDetector(
-                  child: AddItem(addItem),
-                );
+                return AddItem(addItem);
               });
         },
       ),

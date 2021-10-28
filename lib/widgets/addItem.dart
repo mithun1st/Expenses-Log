@@ -39,63 +39,65 @@ class _AddItemState extends State<AddItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8),
-          child: TextField(
-            controller: name,
-            keyboardType: TextInputType.text,
-            decoration: InputDecoration(
-              prefixIcon: Icon(Icons.text_fields),
-              labelText: 'Name',
-              labelStyle: TextStyle(fontWeight: FontWeight.bold),
-              hintText: 'Type Name . . .',
-              hintStyle: TextStyle(fontStyle: FontStyle.italic),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
+    return Container(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: TextField(
+              controller: name,
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.text_fields),
+                labelText: 'Name',
+                labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                hintText: 'Type Name . . .',
+                hintStyle: TextStyle(fontStyle: FontStyle.italic),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                ),
               ),
             ),
           ),
-        ),
-        SizedBox(
-          height: 2,
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8),
-          child: TextField(
-            controller: price,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              prefixIcon: Icon(Icons.money),
-              labelText: 'Price',
-              labelStyle: TextStyle(fontWeight: FontWeight.bold),
-              hintText: 'Enter Amount . . .',
-              hintStyle: TextStyle(fontStyle: FontStyle.italic),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
+          SizedBox(
+            height: 2,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: TextField(
+              controller: price,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.money),
+                labelText: 'Price',
+                labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                hintText: 'Enter Amount . . .',
+                hintStyle: TextStyle(fontStyle: FontStyle.italic),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                ),
               ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TextButton(
-                onPressed: () => datePick(),
-                child: Text('Pick Date'),
-              ),
-              Text(dt!.format('l, d F Y')),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  onPressed: () => datePick(),
+                  child: Text('Pick Date'),
+                ),
+                Text(dt!.format('l, d F Y')),
+              ],
+            ),
           ),
-        ),
-        ElevatedButton(
-          onPressed: () => submit(),
-          child: Text('Submit'),
-        ),
-      ],
+          ElevatedButton(
+            onPressed: () => submit(),
+            child: Text('Submit'),
+          ),
+        ],
+      ),
     );
   }
 }
